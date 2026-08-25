@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.myy803.diplomas_mgt_app.controller.StudentController" 
+    project="diplomas_mgt_app" 
+    file="/diplomas_mgt_app/src/main/java/com/myy803/diplomas_mgt_app/controller/StudentController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="250" width="244" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.myy803.diplomas_mgt_app.controller.ProfessorController" 
+    project="diplomas_mgt_app" 
+    file="/diplomas_mgt_app/src/main/java/com/myy803/diplomas_mgt_app/controller/ProfessorController.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="448" width="281" x="609" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.myy803.diplomas_mgt_app.controller.AuthController" project="diplomas_mgt_app" 
+    file="/diplomas_mgt_app/src/main/java/com/myy803/diplomas_mgt_app/controller/AuthController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="196" width="244" x="325" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

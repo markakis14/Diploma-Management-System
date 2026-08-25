@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grade Thesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* CUSTOM SCROLLBAR STYLING */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(11, 16, 32, 0.8);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(129, 140, 248, 0.35);
+            border-radius: 10px;
+            border: 2px solid rgba(11, 16, 32, 0.8);
+            transition: background 0.2s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(249, 115, 22, 0.75);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: rgba(11, 16, 32, 0.8);
+        }
+
+        /* Firefox Scrollbar Standard */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(129, 140, 248, 0.35) rgba(11, 16, 32, 0.8);
+        }
+
+        /* FLUID NATURAL SCROLLING SYSTEM */
+        html {
+            min-height: 100%;
+            background-color: #0b1020;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            color: #eef2ff;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.25), transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.2), transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.12), transparent 45%),
+                #0b1020;
+            background-attachment: fixed;
+            display: block;
+            padding: 60px 18px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* FLOATING GLASS CONTAINER */
+        .card {
+            width: min(580px, 100%);
+            margin: 0 auto;
+            padding: 44px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            background: rgba(17, 24, 39, 0.72);
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: left;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            margin: 0 0 24px;
+            letter-spacing: -0.03em;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* STUDENT BANNER */
+        .meta-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 28px;
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .meta-label {
+            display: block;
+            color: #7f8ba3;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .student-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #818cf8;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        /* INPUT FIELDS & CUSTOM SPINNERS */
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Hide default browser spinners */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .input-with-spinners {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 16px 50px 16px 18px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-family: "Inter", sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.22s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="number"]:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: #818cf8;
+            box-shadow: 
+                0 0 16px rgba(129, 140, 248, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .spinner-controls {
+            position: absolute;
+            right: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .spinner-btn {
+            width: 28px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 10px;
+            user-select: none;
+            transition: all 0.18s ease;
+        }
+
+        .spinner-btn:hover {
+            background: rgba(129, 140, 248, 0.25);
+            border-color: rgba(129, 140, 248, 0.5);
+            color: #ffffff;
+        }
+
+        /* TOTAL GRADE GLOW DISPLAY */
+        .total-grade-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.12));
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 28px 0 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .total-grade-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 20px rgba(129, 140, 248, 0.5);
+        }
+
+        /* ACTION BUTTON GRID */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 52px;
+            width: 100%;
+            border-radius: 16px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .box:hover {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border-color: #fb923c;
+            color: #ffffff;
+            box-shadow: 0 10px 28px rgba(249, 115, 22, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .box-danger:hover {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-color: #f87171;
+            color: #ffffff;
+            box-shadow: 0 10px 28px rgba(239, 68, 68, 0.45);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2 th:text="${thesis.title}">THESIS TITLE</h2>
+
+    <div class="meta-box">
+        <span class="meta-label">Assigned Student</span>
+        <div class="student-name" th:text="${thesis.studentName}">Student Name</div>
+    </div>
+
+    <form action="#" th:action="@{/professor/set_grades(thesisId=${thesis.id})}" method="POST">
+        
+        <input type="hidden" th:field="${thesis.id}" />
+
+        <div class="input-group">
+            <label class="input-label">Implementation Grade</label>
+            <div class="input-with-spinners">
+                <input type="number" id="implGrade" step="0.01" th:field="${thesis.implementationGrade}" placeholder="0.00" />
+                <div class="spinner-controls">
+                    <div class="spinner-btn" onclick="adjustValue('implGrade', 0.5)">▲</div>
+                    <div class="spinner-btn" onclick="adjustValue('implGrade', -0.5)">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Report Grade</label>
+            <div class="input-with-spinners">
+                <input type="number" id="repGrade" step="0.01" th:field="${thesis.reportGrade}" placeholder="0.00" />
+                <div class="spinner-controls">
+                    <div class="spinner-btn" onclick="adjustValue('repGrade', 0.5)">▲</div>
+                    <div class="spinner-btn" onclick="adjustValue('repGrade', -0.5)">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Presentation Grade</label>
+            <div class="input-with-spinners">
+                <input type="number" id="presGrade" step="0.01" th:field="${thesis.presentationGrade}" placeholder="0.00" />
+                <div class="spinner-controls">
+                    <div class="spinner-btn" onclick="adjustValue('presGrade', 0.5)">▲</div>
+                    <div class="spinner-btn" onclick="adjustValue('presGrade', -0.5)">▼</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-grade-card">
+            <span class="meta-label">Calculated Total Grade</span>
+            <div class="total-grade-value" th:text="${thesis.getTotalGrade()}">0.00</div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="box">Save</button>
+            <a th:href="@{/professor/assigned_list}" class="box box-danger">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    function adjustValue(inputId, amount) {
+        const input = document.getElementById(inputId);
+        let currentVal = parseFloat(input.value) || 0;
+        let newVal = Math.max(0, currentVal + amount);
+        input.value = newVal.toFixed(2);
+    }
+</script>
+
+</body>
+</html>

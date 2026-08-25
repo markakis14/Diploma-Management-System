@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thesis List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* CUSTOM SCROLLBAR STYLING */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(11, 16, 32, 0.8);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(129, 140, 248, 0.35);
+            border-radius: 10px;
+            border: 2px solid rgba(11, 16, 32, 0.8);
+            transition: background 0.2s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(249, 115, 22, 0.75);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: rgba(11, 16, 32, 0.8);
+        }
+
+        /* Firefox Scrollbar Standard */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(129, 140, 248, 0.35) rgba(11, 16, 32, 0.8);
+        }
+
+        /* FLUID NATURAL SCROLLING SYSTEM */
+        html {
+            min-height: 100%;
+            background-color: #0b1020;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            color: #eef2ff;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.25), transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.2), transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.12), transparent 45%),
+                #0b1020;
+            background-attachment: fixed;
+            display: block;
+            padding: 60px 18px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* FLOATING GLASS CONTAINER */
+        .card {
+            width: min(860px, 100%);
+            margin: 0 auto;
+            padding: 44px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            background: rgba(17, 24, 39, 0.72);
+            box-shadow: 
+                0 30px 90px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: left;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            margin: 0 0 28px;
+            letter-spacing: -0.03em;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* TOP NAVIGATION HEADER BUTTONS */
+        .top-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .btn-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            background: rgba(129, 140, 248, 0.12);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-top:hover {
+            background: rgba(129, 140, 248, 0.25);
+            border-color: #818cf8;
+            box-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* GLASS TABLE CONTAINER */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 28px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.04);
+            color: #7f8ba3;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        td {
+            padding: 16px 18px;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* TABLE IN-LINE ACTION BUTTONS */
+        .table-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #f8fafc;
+            transition: all 0.18s ease;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border-color: #fb923c;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-action-danger:hover {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-color: #f87171;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+            transform: translateY(-1px);
+        }
+
+        /* BOTTOM CANCEL ACTION */
+        .actions {
+            margin-top: 12px;
+        }
+
+        .box-danger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            width: 100%;
+            border-radius: 16px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .box-danger:hover {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-color: #f87171;
+            color: #ffffff;
+            box-shadow: 0 10px 28px rgba(239, 68, 68, 0.45);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Thesis List</h2>
+
+    <div class="top-actions">
+        <a th:href="@{/professor/add_thesis}" class="btn-top">
+            + Add Thesis
+        </a>
+        <a th:href="@{/professor/assigned_list}" class="btn-top">
+            Assigned Thesis
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Title</th>
+                    <th style="width: 45%;">Description</th>
+                    <th style="width: 25%; text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="thesis : ${thesis_list}">
+                    <td th:text="${thesis.title}">Thesis Title</td>
+                    <td th:text="${thesis.description}">Thesis Description</td>
+                    <td>
+                        <div class="table-actions">
+                            <a th:href="@{/professor/edit_thesis(thesisId=${thesis.id})}" class="btn-action">
+                                Edit
+                            </a>
+                            <a th:href="@{/professor/delete(thesisId=${thesis.id})}"
+                               class="btn-action btn-action-danger"
+                               onclick="if (!(confirm('Are you sure you want to delete this thesis?'))) return false">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="actions">
+        <a th:href="@{/professor/dashboard}" class="box-danger">Cancel</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Thesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; font-family: "Inter", sans-serif; color: #eef2ff;
+            background: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.22), transparent 32%),
+                        radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.18), transparent 30%), #0b1020;
+            display: flex; align-items: center; justify-content: center; padding: 32px 18px;
+        }
+        .card {
+            width: min(540px, 100%); padding: 40px; border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 28px; background: rgba(17, 24, 39, 0.78); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+            backdrop-filter: blur(18px); text-align: center;
+        }
+        h2 { font-size: 1.75rem; margin: 0 0 28px; letter-spacing: -0.04em; text-transform: uppercase; font-weight: 800; }
+        
+        /* Input & Form Styling */
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-label {
+            display: block; margin-bottom: 6px; color: #7f8ba3; font-size: 0.72rem;
+            font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%; padding: 14px 16px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.09);
+            color: #fff; font-family: "Inter", sans-serif; font-size: 0.9rem; outline: none;
+            transition: all .18s ease;
+        }
+        textarea { resize: vertical; min-height: 110px; }
+
+        input[type="text"]:focus, textarea:focus {
+            background: rgba(255, 255, 255, 0.07); border-color: #818cf8;
+            box-shadow: 0 0 12px rgba(129, 140, 248, 0.25);
+        }
+
+        /* Placeholder Behavior */
+        input::placeholder, textarea::placeholder { color: #7f8ba3; font-weight: 700; letter-spacing: 0.05em; }
+        input:focus::placeholder, textarea:focus::placeholder { color: transparent; }
+
+        /* Bottom Actions Grid */
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+        .box {
+            display: flex; align-items: center; justify-content: center; height: 52px; width: 100%;
+            border-radius: 16px; text-decoration: none; background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07); color: #f8fafc; font-weight: 700;
+            font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+            transition: all .18s ease;
+        }
+        .box:hover {
+            background: #f97316; border-color: #fb923c; color: #fff;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); transform: translateY(-2px);
+        }
+        .box-danger:hover {
+            background: #ef4444; border-color: #f87171; color: #fff;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4); transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Add Thesis</h2>
+
+    <form action="#" th:action="@{/professor/save}" th:object="${thesis}" method="POST">
+        
+        <!-- Hidden input for ID handling -->
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="input-group">
+            <label class="input-label">Thesis Title</label>
+            <input type="text" th:field="*{title}" placeholder="TITLE" required />
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Description</label>
+            <textarea th:field="*{description}" placeholder="DESCRIPTION" rows="4" required></textarea>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="box">Save</button>
+            <a th:href="@{/professor/thesis_list}" class="box box-danger">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

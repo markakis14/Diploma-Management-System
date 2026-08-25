@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thesis List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; font-family: "Inter", sans-serif; color: #eef2ff;
+            background: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.22), transparent 32%),
+                        radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.18), transparent 30%), #0b1020;
+            display: flex; align-items: center; justify-content: center; padding: 32px 18px;
+        }
+        .card {
+            width: min(720px, 100%); padding: 40px; border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 28px; background: rgba(17, 24, 39, 0.78); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+            backdrop-filter: blur(18px); text-align: center;
+        }
+        h2 { font-size: 1.75rem; margin: 0 0 28px; letter-spacing: -0.04em; text-transform: uppercase; font-weight: 800; }
+        
+        /* Glassmorphic Table Container */
+        .table-container {
+            width: 100%; overflow-x: auto; margin-bottom: 24px;
+            border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        
+        th {
+            background: rgba(255, 255, 255, 0.05); color: #7f8ba3; font-size: 0.75rem;
+            font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        td {
+            padding: 16px; font-size: 0.9rem; color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04); vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255, 255, 255, 0.03); }
+
+        /* Inline Action Buttons */
+        .action-cell { display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-action {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 8px 14px; border-radius: 10px; text-decoration: none;
+            font-weight: 700; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05);
+            color: #f8fafc; transition: all 0.18s ease; cursor: pointer;
+        }
+        .btn-action:hover {
+            background: #f97316; border-color: #fb923c; color: #fff;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35); transform: translateY(-1px);
+        }
+
+        /* Footer Cancel Button */
+        .actions { margin-top: 16px; }
+        .box-danger {
+            display: flex; align-items: center; justify-content: center; height: 50px; width: 100%;
+            border-radius: 16px; text-decoration: none; background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07); color: #f8fafc; font-weight: 700;
+            font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+            transition: all .18s ease;
+        }
+        .box-danger:hover {
+            background: #ef4444; border-color: #f87171; color: #fff;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4); transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Thesis List</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="thesis : ${thesis_list}">
+                    <td th:text="${thesis.title}">Thesis Title</td>
+                    <td>
+                        <div class="action-cell">
+                            <a th:href="@{/student/view_thesis(thesisId=${thesis.id})}" class="btn-action">
+                                See Info
+                            </a>
+                            <a th:href="@{/student/apply(thesisId=${thesis.id})}" 
+                               class="btn-action" 
+                               onclick="return confirm('Are you sure you want to apply for this thesis?');">
+                                Apply
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="actions">
+        <a th:href="@{/student/dashboard}" class="box-danger">Cancel</a>
+    </div>
+</div>
+
+</body>
+</html>

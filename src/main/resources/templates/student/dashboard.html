@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; font-family: "Inter", sans-serif; color: #eef2ff;
+            background: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.22), transparent 32%),
+                        radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.18), transparent 30%), #0b1020;
+            display: flex; align-items: center; justify-content: center; padding: 32px 18px;
+        }
+        .card {
+            width: min(540px, 100%); padding: 40px; border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 28px; background: rgba(17, 24, 39, 0.78); box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+            backdrop-filter: blur(18px); text-align: center;
+        }
+        h2 { font-size: 1.75rem; margin: 0 0 24px; letter-spacing: -0.03em; font-weight: 800; text-transform: uppercase; }
+        
+        /* User Info Box */
+        .user-info {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px; padding: 16px 20px; margin-bottom: 28px; text-align: left;
+        }
+        .user-info h4 { margin: 6px 0; font-size: 0.88rem; font-weight: 500; color: #aab4c8; }
+        .user-info span { color: #818cf8; font-weight: 700; }
+
+        /* Action Grid */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+        
+        .box {
+            display: flex; align-items: center; justify-content: center; height: 60px; width: 100%;
+            border-radius: 16px; text-decoration: none; background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07); color: #f8fafc; font-weight: 700;
+            font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+            transition: all .18s ease;
+        }
+        .box:hover {
+            background: #f97316; border-color: #fb923c; color: #fff;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); transform: translateY(-2px);
+        }
+
+        /* Distinct styling for logout box */
+        .box-danger:hover {
+            background: #ef4444; border-color: #f87171; color: #fff;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Divider line */
+        .divider {
+            height: 1px; background: rgba(255, 255, 255, 0.08); margin: 24px 0; border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Student Dashboard</h2>
+    
+    <!-- Account Metadata Card -->
+    <div class="user-info">
+        <h4>Logged as: <span sec:authentication="name">User</span></h4>
+        <h4>Has role: <span sec:authentication="authorities">Role</span></h4>
+    </div>
+
+    <!-- Dashboard Core Actions -->
+    <div class="grid">
+        <a th:href="@{/student/edit_info}" class="box">My Data</a>
+        <a th:href="@{/student/thesis_list}" class="box">See Thesis</a>
+    </div>
+
+    <hr class="divider">
+
+    <!-- System Navigation -->
+    <div class="grid">
+        <a th:href="@{/}" class="box">Home</a>
+        <a th:href="@{/logout}" class="box box-danger">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

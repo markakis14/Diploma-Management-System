@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Sets character encoding to UTF-8 for universal character support -->
+    <meta charset="utf-8">
+    <!-- Ensures proper responsive scaling and rendering on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Browser tab title -->
+    <title>Diplomas Management</title>
+
+    <!-- Preconnect hints to speed up fetching the Google Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Reset box-sizing to include padding and border in element width/height calculations */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Page wrapper styles: centers the card vertically and horizontally with a glowing dark gradient background */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            color: #eef2ff;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.22), transparent 32%),
+                radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.18), transparent 30%),
+                #0b1020;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 18px;
+        }
+
+        /* Glassmorphism main container card */
+        .card {
+            width: min(800px, 100%);
+            padding: 52px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 28px;
+            background: rgba(17, 24, 39, 0.78);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+            backdrop-filter: blur(18px);
+            /* Centers header elements and button rows horizontally */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Pill badge indicator at top of card */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            margin-bottom: 20px;
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.14);
+            color: #a5b4fc;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Glowing blue dot inside the badge */
+        .badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #818cf8;
+            box-shadow: 0 0 12px #818cf8;
+        }
+
+        /* Main hero title heading */
+        h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2.1rem, 6vw, 4rem);
+            line-height: 1.05;
+            letter-spacing: -0.045em;
+        }
+
+        /* Subtitle descriptive text below heading */
+        .subtitle {
+            max-width: 580px;
+            margin: 0 0 34px;
+            color: #aab4c8;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Centered grid containers for two-column layouts */
+        .user-info, .dashboards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+
+        /* Centered single box wrapper (for single Logout button) */
+        .single-action {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 580px;
+        }
+
+        /* Base box container: shared styling, dimensioning, and orange hover effect across ALL elements */
+        .box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            
+            /* Box Color & Border Defaults */
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+        }
+
+        /* Hover effect across all boxes */
+        .box:hover {
+            background: #f97316;                       /* Bright orange background */
+            border-color: #fb923c;                   /* Light orange border highlight */
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); /* Glowing orange drop shadow */
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Top small label text styling matching the "Logged in as" / "Role" cards */
+        .label {
+            display: block;
+            margin-bottom: 6px;
+            color: #7f8ba3;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color .18s ease;
+        }
+
+        /* Main value text styling matching the username and authority values */
+        .value {
+            color: #f8fafc;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            overflow-wrap: anywhere;
+            transition: color .18s ease;
+        }
+
+        /* All internal text turns bright white on hover */
+        .box:hover .label,
+        .box:hover .value {
+            color: #ffffff;
+        }
+
+        /* Responsive breakpoints for screens smaller than 600px width */
+        @media (max-width: 600px) {
+            .card {
+                padding: 32px 24px;
+                border-radius: 22px;
+            }
+
+            /* Stack grid elements vertically on mobile viewports */
+            .user-info, .dashboards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- Main container card wrapper -->
+<div class="card">
+
+    <!-- System header tag -->
+    <div class="badge">Diplomas Management System</div>
+
+    <!-- Main heading title -->
+    <h1>Welcome back.</h1>
+
+    <!-- Descriptive text -->
+    <p class="subtitle">
+        Manage diplomas, access your dashboard, and keep everything organized
+        from one simple place.
+    </p>
+
+    <!-- Anonymous user section: Visible only to unauthenticated visitors -->
+    <div sec:authorize="hasRole('ROLE_ANONYMOUS')" style="width: 100%; display: flex; justify-content: center;">
+        <div class="dashboards">
+            <!-- Link to login page -->
+            <a th:href="@{/login}" class="box">
+                <span class="label">LOGIN</span>
+            </a>
+            <!-- Link to account registration page -->
+            <a th:href="@{/register}" class="box">
+                <span class="label">CREATE ACCOUNT</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Authenticated user section: Visible only after logging in -->
+    <div sec:authorize="isAuthenticated()" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+        <!-- Displays current user profile info fetched via Spring Security -->
+        <div class="user-info">
+            <div class="box">
+                <span class="label">LOGGED IN AS</span>
+                <span class="value" sec:authentication="name"></span>
+            </div>
+
+            <div class="box">
+                <span class="label">ROLE</span>
+                <span class="value" sec:authentication="authorities"></span>
+            </div>
+        </div>
+
+        <!-- Dashboard row: Student Dashboard (Left) | Professor Dashboard (Right) -->
+        <div class="dashboards">
+            <a th:href="@{/student/dashboard}" 
+               sec:authorize="hasAuthority('STUDENT')" 
+               class="box">
+
+                <span class="label">STUDENT DASHBOARD</span>
+            </a>
+
+            <a th:href="@{/professor/dashboard}" 
+               sec:authorize="hasAuthority('PROFESSOR')" 
+               class="box">
+
+                <span class="label">PROFESSOR DASHBOARD</span>
+            </a>
+        </div>
+
+        <!-- Single Logout action button positioned down in the center -->
+        <div class="single-action">
+            <a th:href="@{/logout}" class="box">
+                <span class="label">LOGOUT</span>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
